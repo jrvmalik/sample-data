@@ -1,11 +1,7 @@
 function X = Sphere( n, p )
-% Uniformly sample n points from the 2-sphere.  Set in ambient space R^p.
+% Uniformly sample n points from the sphere S2.
 %   INPUT
 %       n  : Number of points.
-%       p  : Dimension of ambient Euclidean space (>= 3).
-%   OUTPUT
-%       X  : Data matrix (n x p).
-% Written by John Malik on 2018.7.4, john.malik@duke.edu
 
 switch nargin
     case 1
@@ -14,16 +10,19 @@ switch nargin
         error('Select a number of points to sample.')
 end
 
-rvals = 2 * rand(n, 1) - 1;
-elevation = asin(rvals);
-azimuth = 2 * pi * rand(n, 1);
-[x, y, z] = sph2cart(azimuth, elevation, 3);
-X = sortrows([x, y, z]);
+S2 = zeros(n, 3);
+for i = 1:n
+    point = randn(1, 3);
+    while norm(point) == 0
+        point = randn(1, 3);
+    end
+    S2(i, :) = point / norm(point);
+end
+X = sortrows(S2);
 
 if p > 3
-    X = X * transpose(orth(randn(p, 3)));
+    X = X * transpose(orth(randn(p, size(X, 2))));
 end
-
 
 end
 

@@ -1,11 +1,10 @@
 function X = Circle( n, p )
-% Uniformly sample n points from the circle S^1.  Set in ambient space R^p.
+% Uniformly sample n points from the circle S^1.
 %   INPUT
 %       n  : Number of points.
-%       p  : Dimension of ambient Euclidean space (>= 2).
 %   OUTPUT
-%       X  : Data matrix (n x p).
-% Written by John Malik on 2018.7.4, john.malik@duke.edu
+%       D  : Pair-wise squared distance matrix (n x n).
+% Written by John Malik on 2019.3.4, john.malik@duke.edu
 
 switch nargin
     case 1
@@ -31,9 +30,8 @@ y = sin(2 * pi * t);
 X = [x, y];
 
 if p > 2
-    X = X * transpose(orth(randn(p, 2)));
+    X = X * transpose(orth(randn(p, size(X, 2))));
 end
-
 
 end
 
